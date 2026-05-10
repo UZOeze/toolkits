@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crypto-Rocket Trader Toolkit</title>
+<title>Crypto-Rocket Binary Options Toolkit</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0;}
   body{
@@ -102,6 +102,9 @@
     letter-spacing:2px;
     font-weight:600;
     text-align:center;
+    font-family:'Courier New', monospace;
+    font-style:italic;
+    letter-spacing:3px;
   }
   
   .tabs{
@@ -349,10 +352,10 @@
     overflow:hidden;
   }
   
-  .video-thumb img {
+  .video-thumb iframe {
     width:100%;
     height:100%;
-    object-fit:cover;
+    border:none;
   }
   
   .play-btn {
@@ -814,8 +817,8 @@
     <div class="logo-container pulse">
       <img src="https://image.qwenlm.ai/public_source/46c2a2ea-709b-4eba-97bd-b508c5d7874a/149f722e7-72f8-4b4c-9d40-2132639b38ba.png" alt="Crypto-Rocket Logo" class="logo">
     </div>
-    <h1>🚀 Trader Toolkit</h1>
-    <div class="brand-name">CRYPTO-ROCKET</div>
+    <h1>🚀 Binary Options Toolkit</h1>
+    <div class="brand-name">CRYPTOROCKET</div>
   </div>
   
   <div class="tabs">
@@ -848,21 +851,21 @@
   <!-- Risk Calculator -->
   <div id="panel-risk" class="panel">
     <div class="row">
-      <div><label>Account balance ($)</label><input type="number" id="r-balance" value="500" min="1" oninput="calcRisk()"></div>
-      <div><label>Risk per trade (%)</label><div class="range-row"><input type="range" id="r-pct" min="0.5" max="20" step="0.5" value="2" oninput="calcRisk()"><span class="range-val" id="r-pct-out">2%</span></div></div>
+      <div><label>Account balance ($)</label><input type="number" id="r-balance" value="1000" min="1" oninput="calcRisk()"></div>
+      <div><label>Risk per trade (%)</label><div class="range-row"><input type="range" id="r-pct" min="0.5" max="10" step="0.5" value="2" oninput="calcRisk()"><span class="range-val" id="r-pct-out">2%</span></div></div>
     </div>
     <div class="row">
-      <div><label>Payout (%)</label><div class="range-row"><input type="range" id="r-payout" min="50" max="95" step="1" value="80" oninput="calcRisk()"><span class="range-val" id="r-payout-out">80%</span></div></div>
-      <div><label>Consecutive losses allowed</label><input type="number" id="r-losses" value="5" min="1" max="20" oninput="calcRisk()"></div>
+      <div><label>Payout (%)</label><div class="range-row"><input type="range" id="r-payout" min="60" max="90" step="1" value="80" oninput="calcRisk()"><span class="range-val" id="r-payout-out">80%</span></div></div>
+      <div><label>Consecutive losses allowed</label><input type="number" id="r-losses" value="3" min="1" max="10" oninput="calcRisk()"></div>
     </div>
     <hr class="divider">
     <div class="row">
-      <div class="card"><div class="card-label">Stake per trade</div><div class="card-val" id="r-stake">$10.00</div></div>
-      <div class="card"><div class="card-label">Max loss (streak)</div><div class="card-val bad" id="r-maxloss">-$50.00</div></div>
-      <div class="card"><div class="card-label">Profit if win</div><div class="card-val good" id="r-profit">+$8.00</div></div>
-      <div class="card"><div class="card-label">Trades to recover</div><div class="card-val warn" id="r-recover">7</div></div>
+      <div class="card"><div class="card-label">Stake per trade</div><div class="card-val" id="r-stake">$20.00</div></div>
+      <div class="card"><div class="card-label">Max loss (streak)</div><div class="card-val bad" id="r-maxloss">-$60.00</div></div>
+      <div class="card"><div class="card-label">Profit if win</div><div class="card-val good" id="r-profit">+$16.00</div></div>
+      <div class="card"><div class="card-label">Trades to recover</div><div class="card-val warn" id="r-recover">4</div></div>
     </div>
-    <p class="hint">💡 Rule of thumb: never risk more than 2% per trade.</p>
+    <p class="hint">💡 CryptoRocket: Never risk more than 2% per trade. Max consecutive losses: 3</p>
   </div>
 
   <!-- Win Rate Calculator -->
@@ -872,8 +875,8 @@
       <div><label>Winning trades</label><input type="number" id="w-wins" value="55" min="0" oninput="calcWin()"></div>
     </div>
     <div class="row">
-      <div><label>Stake per trade ($)</label><input type="number" id="w-stake" value="10" min="1" oninput="calcWin()"></div>
-      <div><label>Payout (%)</label><div class="range-row"><input type="range" id="w-payout" min="50" max="95" step="1" value="80" oninput="calcWin()"><span class="range-val" id="w-payout-out">80%</span></div></div>
+      <div><label>Stake per trade ($)</label><input type="number" id="w-stake" value="20" min="1" oninput="calcWin()"></div>
+      <div><label>Payout (%)</label><div class="range-row"><input type="range" id="w-payout" min="60" max="90" step="1" value="80" oninput="calcWin()"><span class="range-val" id="w-payout-out">80%</span></div></div>
     </div>
     <hr class="divider">
     <div class="row">
@@ -895,14 +898,13 @@
   <!-- Martingale Calculator -->
   <div id="panel-martingale" class="panel">
     <div class="row">
-      <div><label>Initial stake ($)</label><input type="number" id="m-initial" value="5" min="0.5" step="0.5" oninput="calcMartingale()"></div>
-      <div><label>Multiplier</label><div class="range-row"><input type="range" id="m-mult" min="1.5" max="3" step="0.1" value="2" oninput="calcMartingale()"><span class="range-val" id="m-mult-out">2x</span></div></div>
+      <div><label>Initial stake ($)</label><input type="number" id="m-initial" value="20" min="1" step="1" oninput="calcMartingale()"></div>
+      <div><label>Steps to show</label><div class="range-row"><input type="range" id="m-steps" min="3" max="6" step="1" value="4" oninput="calcMartingale()"><span class="range-val" id="m-steps-out">4</span></div></div>
     </div>
     <div class="row">
-      <div><label>Steps to show</label><div class="range-row"><input type="range" id="m-steps" min="3" max="10" step="1" value="6" oninput="calcMartingale()"><span class="range-val" id="m-steps-out">6</span></div></div>
-      <div><label>Payout (%)</label><div class="range-row"><input type="range" id="m-payout" min="50" max="95" step="1" value="80" oninput="calcMartingale()"><span class="range-val" id="m-payout-out">80%</span></div></div>
+      <div><label>Payout (%)</label><div class="range-row"><input type="range" id="m-payout" min="60" max="90" step="1" value="80" oninput="calcMartingale()"><span class="range-val" id="m-payout-out">80%</span></div></div>
+      <div><label>Stop when total loss exceeds ($)</label><input type="number" id="m-stop" value="300" min="50" oninput="calcMartingale()"></div>
     </div>
-    <div style="margin-bottom:16px;"><label>Stop when total loss exceeds ($)</label><input type="number" id="m-stop" value="200" min="10" oninput="calcMartingale()"></div>
     <hr class="divider">
     <div style="overflow-x:auto;">
       <table><thead><tr><th>Step</th><th>Stake</th><th>Total at risk</th><th>If you win</th><th>Net</th></tr></thead>
@@ -914,31 +916,65 @@
   <!-- Payout Calculator -->
   <div id="panel-payout" class="panel">
     <div class="row">
-      <div><label>Stake ($)</label><input type="number" id="p-stake" value="50" min="1" oninput="calcPayout()"></div>
-      <div><label>Payout rate (%)</label><div class="range-row"><input type="range" id="p-payout" min="50" max="95" step="1" value="80" oninput="calcPayout()"><span class="range-val" id="p-payout-out">80%</span></div></div>
+      <div><label>Stake ($)</label><input type="number" id="p-stake" value="20" min="1" oninput="calcPayout()"></div>
+      <div><label>Payout rate (%)</label><div class="range-row"><input type="range" id="p-payout" min="60" max="90" step="1" value="80" oninput="calcPayout()"><span class="range-val" id="p-payout-out">80%</span></div></div>
     </div>
     <div class="row">
       <div><label>Number of trades</label><input type="number" id="p-trades" value="10" min="1" oninput="calcPayout()"></div>
-      <div><label>Expected win rate (%)</label><div class="range-row"><input type="range" id="p-winrate" min="40" max="90" step="1" value="60" oninput="calcPayout()"><span class="range-val" id="p-winrate-out">60%</span></div></div>
     </div>
     <hr class="divider">
     <div class="row">
-      <div class="card"><div class="card-label">Profit if win</div><div class="card-val good" id="p-win-profit">+$40.00</div></div>
-      <div class="card"><div class="card-label">Loss if lose</div><div class="card-val bad" id="p-loss">-$50.00</div></div>
-      <div class="card"><div class="card-label">Expected wins</div><div class="card-val" id="p-exp-wins">6</div></div>
-      <div class="card"><div class="card-label">Expected net</div><div class="card-val" id="p-exp-net">+$40.00</div></div>
+      <div class="card"><div class="card-label">Profit if win</div><div class="card-val good" id="p-win-profit">+$16.00</div></div>
+      <div class="card"><div class="card-label">Loss if lose</div><div class="card-val bad" id="p-loss">-$20.00</div></div>
+      <div class="card"><div class="card-label">Expected wins</div><div class="card-val" id="p-exp-wins">5</div></div>
+      <div class="card"><div class="card-label">Expected net</div><div class="card-val" id="p-exp-net">-$40.00</div></div>
     </div>
     <div class="row" style="margin-top:0;">
-      <div class="card"><div class="card-label">Total invested</div><div class="card-val" id="p-invested">$500.00</div></div>
-      <div class="card"><div class="card-label">ROI</div><div class="card-val good" id="p-roi">8.0%</div></div>
+      <div class="card"><div class="card-label">Total invested</div><div class="card-val" id="p-invested">$200.00</div></div>
+      <div class="card"><div class="card-label">ROI</div><div class="card-val bad" id="p-roi">-20.0%</div></div>
     </div>
   </div>
 
   <!-- Video Library -->
   <div id="panel-videos" class="panel">
-    <h2 style="margin-bottom:20px; color:#d4af37;">Trading Education Videos</h2>
+    <h2 style="margin-bottom:20px; color:#d4af37;">Binary Options Education Videos</h2>
     <div class="video-list" id="video-list">
-      <div class="no-videos">Loading videos...</div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/Y9UKwU8eJsQ" allowfullscreen></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Binary Options Strategy for Beginners</div>
+          <div class="video-channel">Pocket Option Masters</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/FiCPxXH6aGU" allowfullscreen></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Pocket Option Platform Tutorial</div>
+          <div class="video-channel">Binary Trading Pro</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/PoYTOeURDF8" allowfullscreen></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Best Time Frames for Binary Options</div>
+          <div class="video-channel">Option Traders Hub</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/RS_0txJZ72U" allowfullscreen></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Technical Analysis for Binary Trading</div>
+          <div class="video-channel">Trading Academy</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -947,27 +983,27 @@
     <div class="product-container">
       <div class="product-image">🚀</div>
       <div class="product-info">
-        <h2 class="product-title">Crypto-Rocket Premium Toolkit</h2>
-        <p class="product-description">Advanced trading tools, real-time market analysis, and exclusive educational content to maximize your profits and minimize risks.</p>
-        <div class="price">$99.99</div>
-        <button class="buy-button" onclick="location.href='https://your-payment-link.com'">BUY NOW</button>
+        <h2 class="product-title">CryptoRocket Premium Toolkit</h2>
+        <p class="product-description">Advanced binary options tools, real-time market analysis, and exclusive educational content for Pocket Option traders.</p>
+        <div class="price">$79.99</div>
+        <button class="buy-button" onclick="window.open('https://uzoeze.github.io/toolkits/', '_blank')">BUY NOW</button>
       </div>
       
       <div class="features">
         <div class="feature">
           <div class="feature-icon">📊</div>
-          <div class="feature-title">Advanced Analytics</div>
-          <div class="feature-desc">Real-time market insights and predictive analytics</div>
+          <div class="feature-title">Binary Strategy Analyzer</div>
+          <div class="feature-desc">Analyze and optimize your binary options strategies</div>
         </div>
         <div class="feature">
           <div class="feature-icon">🔒</div>
           <div class="feature-title">Risk Management</div>
-          <div class="feature-desc">Tools to protect your capital and optimize positions</div>
+          <div class="feature-desc">Protect your account with proven risk management tools</div>
         </div>
         <div class="feature">
           <div class="feature-icon">🎓</div>
           <div class="feature-title">Educational Content</div>
-          <div class="feature-desc">Exclusive courses and trading strategies</div>
+          <div class="feature-desc">Exclusive binary options courses and strategies</div>
         </div>
       </div>
     </div>
@@ -1033,77 +1069,11 @@ function createParticles() {
   }
 }
 
-// Predefined video list
-const videoList = [
-  {
-    id: "dQw4w9WgXcQ",
-    title: "How to Trade Crypto Like a Pro",
-    channel: "Crypto Master",
-    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"
-  },
-  {
-    id: "jNQXAC9IVRw",
-    title: "Bitcoin Explained - Full Guide",
-    channel: "Tech Explainer",
-    thumbnail: "https://img.youtube.com/vi/jNQXAC9IVRw/maxresdefault.jpg"
-  },
-  {
-    id: "9bZkp7q19f0",
-    title: "Top Trading Strategies 2026",
-    channel: "Trading Gurus",
-    thumbnail: "https://img.youtube.com/vi/9bZkp7q19f0/maxresdefault.jpg"
-  },
-  {
-    id: "M7lc1UVf-VE",
-    title: "Advanced Chart Analysis Techniques",
-    channel: "Trading Academy",
-    thumbnail: "https://img.youtube.com/vi/M7lc1UVf-VE/maxresdefault.jpg"
-  },
-  {
-    id: "y6120QOlsfU",
-    title: "Risk Management in Crypto Trading",
-    channel: "Finance Experts",
-    thumbnail: "https://img.youtube.com/vi/y6120QOlsfU/maxresdefault.jpg"
-  },
-  {
-    id: "fJ9rUzIMcZQ",
-    title: "Understanding Market Psychology",
-    channel: "Psychology of Trading",
-    thumbnail: "https://img.youtube.com/vi/fJ9rUzIMcZQ/maxresdefault.jpg"
-  }
-];
-
 function switchTab(id){
   ['market','risk','winrate','martingale','payout','videos','buy'].forEach((n,i)=>{
     document.querySelectorAll('.tab')[i].classList.toggle('active',n===id);
     document.getElementById('panel-'+n).classList.toggle('active',n===id);
   });
-  
-  if(id === 'videos') {
-    renderVideoList();
-  }
-}
-
-function renderVideoList() {
-  const container = document.getElementById('video-list');
-  
-  if (videoList.length === 0) {
-    container.innerHTML = '<div class="no-videos">No videos available.</div>';
-    return;
-  }
-  
-  container.innerHTML = videoList.map((video, index) => `
-    <div class="video-card">
-      <div class="video-thumb">
-        <img src="${video.thumbnail}" alt="${video.title}">
-        <div class="play-btn">▶</div>
-      </div>
-      <div class="video-info">
-        <div class="video-title">${video.title}</div>
-        <div class="video-channel">${video.channel}</div>
-      </div>
-    </div>
-  `).join('');
 }
 
 function fmt(n){return '$'+Math.abs(n).toFixed(2);}
@@ -1111,7 +1081,7 @@ function calcRisk(){
   const bal=parseFloat(document.getElementById('r-balance').value)||0;
   const p=parseFloat(document.getElementById('r-pct').value)||2;
   const payout=parseFloat(document.getElementById('r-payout').value)||80;
-  const losses=parseInt(document.getElementById('r-losses').value)||5;
+  const losses=parseInt(document.getElementById('r-losses').value)||3;
   document.getElementById('r-pct-out').textContent=p+'%';
   document.getElementById('r-payout-out').textContent=payout+'%';
   const stake=bal*p/100, profit=stake*payout/100, maxloss=stake*losses;
@@ -1123,7 +1093,7 @@ function calcRisk(){
 function calcWin(){
   const total=parseInt(document.getElementById('w-total').value)||1;
   const wins=Math.min(parseInt(document.getElementById('w-wins').value)||0,total);
-  const stake=parseFloat(document.getElementById('w-stake').value)||10;
+  const stake=parseFloat(document.getElementById('w-stake').value)||20;
   const payout=parseFloat(document.getElementById('w-payout').value)||80;
   document.getElementById('w-payout-out').textContent=payout+'%';
   const losses=total-wins, winRate=wins/total*100, breakEven=100/(1+payout/100);
@@ -1142,17 +1112,15 @@ function calcWin(){
   document.getElementById('w-bar').style.background=winRate>=breakEven?'linear-gradient(to right, #d4af37, #b8860b)':'linear-gradient(to right, #f44336, #d32f2f)';
 }
 function calcMartingale(){
-  const initial=parseFloat(document.getElementById('m-initial').value)||5;
-  const mult=parseFloat(document.getElementById('m-mult').value)||2;
-  const steps=parseInt(document.getElementById('m-steps').value)||6;
+  const initial=parseFloat(document.getElementById('m-initial').value)||20;
+  const steps=parseInt(document.getElementById('m-steps').value)||4;
   const payout=parseFloat(document.getElementById('m-payout').value)||80;
-  const stop=parseFloat(document.getElementById('m-stop').value)||200;
-  document.getElementById('m-mult-out').textContent=mult.toFixed(1)+'x';
+  const stop=parseFloat(document.getElementById('m-stop').value)||300;
   document.getElementById('m-steps-out').textContent=steps;
   document.getElementById('m-payout-out').textContent=payout+'%';
   let tbody='',total=0,warn='',hitStop=false;
   for(let i=1;i<=steps;i++){
-    const stake=initial*Math.pow(mult,i-1);
+    const stake=initial*i*2; // Simplified progression for binary options
     total+=stake;
     const profit=stake*payout/100, net=profit-total;
     const stopped=total>stop&&!hitStop;
@@ -1164,14 +1132,13 @@ function calcMartingale(){
   document.getElementById('m-warning').textContent=warn;
 }
 function calcPayout(){
-  const stake=parseFloat(document.getElementById('p-stake').value)||50;
+  const stake=parseFloat(document.getElementById('p-stake').value)||20;
   const payout=parseFloat(document.getElementById('p-payout').value)||80;
   const trds=parseInt(document.getElementById('p-trades').value)||10;
-  const wr=parseFloat(document.getElementById('p-winrate').value)||60;
-  document.getElementById('p-payout-out').textContent=payout+'%';
-  document.getElementById('p-winrate-out').textContent=wr+'%';
-  const profit=stake*payout/100, expWins=Math.round(trds*wr/100);
+  const profit=stake*payout/100;
+  const expWins=Math.round(trds*0.5); // Default 50% expected win rate
   const expNet=expWins*profit-(trds-expWins)*stake, invested=trds*stake, roi=expNet/invested*100;
+  document.getElementById('p-payout-out').textContent=payout+'%';
   document.getElementById('p-win-profit').textContent='+'+fmt(profit);
   document.getElementById('p-loss').textContent='-'+fmt(stake);
   document.getElementById('p-exp-wins').textContent=expWins;
@@ -1190,20 +1157,22 @@ function showModal(type) {
   const content = document.getElementById('modal-content');
   
   if (type === 'about') {
-    title.textContent = 'About Crypto-Rocket';
+    title.textContent = 'About Crypto-Rocket Binary Options Toolkit';
     content.innerHTML = `
-      <p>Welcome to Crypto-Rocket, your premier destination for advanced trading tools and financial insights. Our platform combines cutting-edge technology with expert analysis to help traders navigate the complex world of cryptocurrency and traditional markets.</p>
+      <p>Welcome to Crypto-Rocket Binary Options Toolkit, your premier destination for advanced binary options trading tools specifically designed for Pocket Option traders. Our platform combines cutting-edge technology with expert analysis to help traders navigate the complex world of binary options.</p>
       <br>
-      <p>Founded in 2026, Crypto-Rocket was created by a team of experienced traders and financial experts who recognized the need for reliable, easy-to-use tools in the rapidly evolving trading landscape. Our mission is to empower traders of all levels with the resources they need to make informed decisions.</p>
+      <p>Founded in 2026, Crypto-Rocket was created by a team of experienced binary options traders who recognized the need for reliable, easy-to-use tools in the rapidly evolving binary options landscape. Our mission is to empower traders of all levels with the resources they need to make informed decisions.</p>
       <br>
-      <p>Our toolkit includes risk calculators, win rate analyzers, martingale simulators, and payout estimators, all designed to enhance your trading strategy. We continuously update our tools to reflect the latest market trends and incorporate feedback from our users.</p>
+      <p>Our toolkit includes risk calculators, win rate analyzers, martingale simulators, and payout estimators, all designed to enhance your binary options trading strategy. We continuously update our tools to reflect the latest market trends and incorporate feedback from our users.</p>
       <br>
-      <p>At Crypto-Rocket, we believe that successful trading requires both powerful tools and comprehensive education. That's why we offer a curated selection of educational videos and resources to help you improve your skills and understanding of the markets.</p>
+      <p>At Crypto-Rocket, we believe that successful binary options trading requires both powerful tools and comprehensive education. That's why we offer a curated selection of educational videos and resources to help you improve your skills and understanding of the markets.</p>
+      <br>
+      <p>Our tools are specifically calibrated for Pocket Option's platform requirements, including recommended risk percentages (1-10%), payout rates (60-90%), and maximum consecutive loss scenarios (3-5).</p>
     `;
   } else if (type === 'privacy') {
     title.textContent = 'Privacy Policy';
     content.innerHTML = `
-      <p>This Privacy Policy governs the manner in which Crypto-Rocket collects, uses, maintains, and discloses information collected from users of the https://crypto-rocket.trader toolkit website.</p>
+      <p>This Privacy Policy governs the manner in which Crypto-Rocket collects, uses, maintains, and discloses information collected from users of the https://crypto-rocket.binary-options toolkit website.</p>
       <br>
       <h3 style="color:#d4af37;">Personal Identification Information</h3>
       <p>We may collect personal identification information from Users in a variety of ways, including when Users visit our site, register on the site, place an order, subscribe to the newsletter, respond to a survey, fill out a form, and in connection with other activities, services, features or resources we make available on our Site. Users may visit our Site anonymously. We will collect personal identification information from Users only if they voluntarily submit such information to us. Users can always refuse to supply personally identification information, except that it may prevent them from engaging in certain Site related activities.</p>
@@ -1237,13 +1206,6 @@ function closeModal() {
 // Initialize
 createParticles();
 calcRisk();calcWin();calcMartingale();calcPayout();
-
-// Render initial videos when page loads
-window.onload = function() {
-  if (document.querySelector('.tab.active').onclick.toString().includes('videos')) {
-    renderVideoList();
-  }
-};
 </script>
 </body>
 </html>
