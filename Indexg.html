@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypto-Rocket Binary Options Toolkit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1200 50%, #2d1b00 100%);
+    color:#f0e6d2;
+    padding:20px;
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+  }
+  .tech-bg {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
+    opacity:0.2;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 20%),
+      radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 20%),
+      repeating-linear-gradient(0deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.05) 1px, transparent 1px, transparent 20px),
+      repeating-linear-gradient(90deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.05) 1px, transparent 1px, transparent 20px);
+  }
+  
+  .particles {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
+  }
+  
+  .particle {
+    position:absolute;
+    border-radius:50%;
+    background:rgba(212, 175, 55, 0.3);
+    animation:float 15s infinite linear;
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity:0; }
+    10% { opacity:0.5; }
+    90% { opacity:0.3; }
+    100% { transform: translateY(-100vh) translateX(100px) rotate(360deg); opacity:0; }
+  }
+  
+  .wrap{
+    max-width:1200px;
+    margin:0 auto;
+    position:relative;
+    z-index:10;
+  }
+  
+  .header {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+  }
+  
+  .logo-container {
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:10px;
+    box-shadow:0 0 25px rgba(212, 175, 55, 0.4);
+  }
+  
+  .logo {
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    object-fit:contain;
+    filter:drop-shadow(0 0 5px rgba(0,0,0,0.5));
+  }
+  
+  h1{
+    font-size:28px;
+    font-weight:700;
+    color:#f0e6d2;
+    text-shadow:0 0 15px rgba(212, 175, 55, 0.5);
+    text-align:center;
+  }
+  
+  .brand-name {
+    font-size:24px;
+    color:#d4af37;
+    letter-spacing:2px;
+    font-weight:600;
+    text-align:center;
+    font-family:'Courier New', monospace;
+    font-style:italic;
+    letter-spacing:3px;
+  }
+  
+  .tabs{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+    justify-content:center;
+  }
+  
+  .tab{
+    padding:10px 18px;
+    border-radius:10px;
+    border:1px solid #444;
+    background:linear-gradient(to bottom, #222, #111);
+    color:#aaa;
+    font-size:14px;
+    cursor:pointer;
+    transition:all .3s ease;
+    font-weight:500;
+    box-shadow:0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  .tab.active{
+    background:linear-gradient(to bottom, #d4af37, #b8860b);
+    color:#1a1a1a;
+    border-color:#d4af37;
+    font-weight:600;
+    box-shadow:0 0 15px rgba(212, 175, 55, 0.4);
+  }
+  
+  .tab:hover:not(.active){
+    background:linear-gradient(to bottom, #333, #222);
+    color:#d4af37;
+    border-color:#555;
+  }
+  
+  .panel{
+    display:none;
+    background:rgba(20, 20, 20, 0.8);
+    border-radius:12px;
+    border:1px solid #444;
+    padding:24px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(212, 175, 55, 0.2);
+  }
+  
+  .panel.active{
+    display:block;
+    animation:fadeIn 0.4s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity:0; transform:translateY(10px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  
+  label{
+    font-size:14px;
+    color:#aaa;
+    display:block;
+    margin-bottom:8px;
+    font-weight:500;
+  }
+  
+  input[type=number],input[type=text],select{
+    width:100%;
+    padding:12px 15px;
+    border:1px solid #444;
+    border-radius:8px;
+    font-size:15px;
+    font-family:inherit;
+    background:rgba(30, 30, 30, 0.8);
+    color:#f0e6d2;
+    transition:all .3s;
+  }
+  
+  input[type=number]:focus,input[type=text]:focus,select:focus{
+    outline:none;
+    border-color:#d4af37;
+    box-shadow:0 0 0 2px rgba(212, 175, 55, 0.3);
+  }
+  
+  input[type=range]{
+    width:100%;
+    accent-color:#d4af37;
+    height:6px;
+    border-radius:3px;
+    background: #333;
+  }
+  
+  .row{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:16px;
+    margin-bottom:18px;
+  }
+  
+  .card{
+    background:rgba(40, 35, 20, 0.6);
+    border-radius:10px;
+    padding:16px;
+    text-align:center;
+    border:1px solid rgba(212, 175, 55, 0.2);
+    transition:transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform:scale(1.03);
+    background:rgba(50, 45, 30, 0.7);
+    border:1px solid rgba(212, 175, 55, 0.4);
+  }
+  
+  .card-label{
+    font-size:13px;
+    color:#aaa;
+    margin-bottom:8px;
+  }
+  
+  .card-val{
+    font-size:24px;
+    font-weight:700;
+    color:#f0e6d2;
+  }
+  
+  .card-val.good{color:#4caf50; text-shadow:0 0 8px rgba(76, 175, 80, 0.4);}
+  .card-val.bad{color:#f44336; text-shadow:0 0 8px rgba(244, 67, 54, 0.4);}
+  .card-val.warn{color:#ff9800; text-shadow:0 0 8px rgba(255, 152, 0, 0.4);}
+  
+  .divider{
+    border:none;
+    border-top:1px solid #333;
+    margin:22px 0;
+    background:linear-gradient(to right, transparent, #d4af37, transparent);
+    height:1px;
+  }
+  
+  .range-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  
+  .range-row input[type=range]{
+    flex:1;
+  }
+  
+  .range-val{
+    min-width:50px;
+    text-align:right;
+    font-size:15px;
+    font-weight:600;
+    color:#d4af37;
+    width:60px;
+  }
+  
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+    background:rgba(30, 25, 15, 0.5);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  
+  th{
+    text-align:left;
+    padding:12px 15px;
+    font-weight:600;
+    color:#d4af37;
+    background:rgba(40, 35, 20, 0.7);
+    border-bottom:1px solid #444;
+  }
+  
+  td{
+    padding:12px 15px;
+    border-bottom:1px solid #333;
+    color:#f0e6d2;
+  }
+  
+  tr:last-child td{
+    border-bottom:none;
+  }
+  
+  tr:nth-child(even) {
+    background:rgba(35, 30, 20, 0.4);
+  }
+  
+  .stop-row td{
+    color:#f44336;
+    font-weight:700;
+    background:rgba(60, 30, 30, 0.3) !important;
+  }
+  
+  .warn-text{
+    font-size:13px;
+    color:#f44336;
+    margin-top:12px;
+    padding:10px;
+    background:rgba(60, 30, 30, 0.2);
+    border-radius:6px;
+    border-left:3px solid #f44336;
+  }
+  
+  .hint{
+    font-size:13px;
+    color:#aaa;
+    margin-top:12px;
+    padding:10px;
+    background:rgba(40, 35, 20, 0.3);
+    border-radius:6px;
+    border-left:3px solid #d4af37;
+  }
+  
+  .video-list {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
+    gap:15px;
+    margin-top:20px;
+  }
+  
+  .video-card {
+    background:rgba(40, 35, 20, 0.6);
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid rgba(212, 175, 55, 0.2);
+    transition:transform 0.3s ease;
+  }
+  
+  .video-card:hover {
+    transform:scale(1.03);
+    background:rgba(50, 45, 30, 0.7);
+    border:1px solid rgba(212, 175, 55, 0.4);
+  }
+  
+  .video-thumb {
+    width:100%;
+    aspect-ratio:16/9;
+    background:rgba(0,0,0,0.3);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+  }
+  
+  .video-thumb iframe {
+    width:100%;
+    height:100%;
+    border:none;
+  }
+  
+  .play-btn {
+    position:absolute;
+    width:50px;
+    height:50px;
+    background:rgba(0,0,0,0.7);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#d4af37;
+    font-size:20px;
+  }
+  
+  .video-info {
+    padding:12px;
+  }
+  
+  .video-title {
+    font-weight:600;
+    margin-bottom:5px;
+    color:#f0e6d2;
+  }
+  
+  .video-channel {
+    font-size:12px;
+    color:#aaa;
+  }
+  
+  .news-item {
+    background:rgba(40, 35, 20, 0.6);
+    border-radius:8px;
+    padding:15px;
+    margin-bottom:12px;
+    border-left:3px solid #d4af37;
+    transition:transform 0.3s ease;
+  }
+  
+  .news-item:hover {
+    transform:translateX(5px);
+    background:rgba(50, 45, 30, 0.7);
+  }
+  
+  .news-title {
+    font-weight:600;
+    margin-bottom:5px;
+    color:#f0e6d2;
+  }
+  
+  .news-source {
+    font-size:12px;
+    color:#aaa;
+    margin-bottom:5px;
+  }
+  
+  .news-time {
+    font-size:11px;
+    color:#888;
+  }
+  
+  .calendar-event {
+    background:rgba(40, 35, 20, 0.6);
+    border-radius:8px;
+    padding:12px;
+    margin-bottom:10px;
+    border-left:3px solid #4caf50;
+  }
+  
+  .event-title {
+    font-weight:600;
+    margin-bottom:3px;
+    color:#f0e6d2;
+  }
+  
+  .event-details {
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:#aaa;
+  }
+  
+  .event-country {
+    display:flex;
+    align-items:center;
+    gap:5px;
+  }
+  
+  .event-impact {
+    padding:2px 6px;
+    border-radius:4px;
+    font-size:10px;
+    font-weight:bold;
+  }
+  
+  .high { background:rgba(244, 67, 54, 0.3); color:#f44336; }
+  .medium { background:rgba(255, 152, 0, 0.3); color:#ff9800; }
+  .low { background:rgba(76, 175, 80, 0.3); color:#4caf50; }
+  
+  .api-section {
+    margin-bottom:25px;
+  }
+  
+  .section-title {
+    font-size:18px;
+    color:#d4af37;
+    margin-bottom:15px;
+    padding-bottom:8px;
+    border-bottom:1px solid #444;
+  }
+  
+  .no-data {
+    text-align:center;
+    padding:20px;
+    color:#aaa;
+    font-style:italic;
+  }
+  
+  .product-container {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+    padding:20px 0;
+  }
+  
+  .product-image {
+    width:200px;
+    height:200px;
+    border-radius:10px;
+    background:linear-gradient(45deg, #d4af37, #b8860b);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:60px;
+    color:rgba(0,0,0,0.3);
+    box-shadow:0 10px 30px rgba(212, 175, 55, 0.3);
+  }
+  
+  .product-info {
+    text-align:center;
+  }
+  
+  .product-title {
+    font-size:24px;
+    font-weight:700;
+    color:#f0e6d2;
+    margin-bottom:10px;
+  }
+  
+  .product-description {
+    font-size:16px;
+    color:#ccc;
+    margin-bottom:20px;
+    line-height:1.5;
+  }
+  
+  .price {
+    font-size:28px;
+    font-weight:700;
+    color:#d4af37;
+    margin-bottom:20px;
+  }
+  
+  .buy-button {
+    padding:15px 40px;
+    background:linear-gradient(to bottom, #d4af37, #b8860b);
+    color:#1a1a1a;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+    transition:all 0.3s ease;
+    box-shadow:0 5px 15px rgba(212, 175, 55, 0.4);
+  }
+  
+  .buy-button:hover {
+    background:linear-gradient(to bottom, #c5a02e, #a8760b);
+    transform:scale(1.05);
+    box-shadow:0 8px 20px rgba(212, 175, 55, 0.6);
+  }
+  
+  .features {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:15px;
+    margin-top:20px;
+  }
+  
+  .feature {
+    background:rgba(40, 35, 20, 0.6);
+    padding:15px;
+    border-radius:8px;
+    min-width:200px;
+    text-align:center;
+    border:1px solid rgba(212, 175, 55, 0.2);
+  }
+  
+  .feature-icon {
+    font-size:24px;
+    color:#d4af37;
+    margin-bottom:10px;
+  }
+  
+  .feature-title {
+    font-weight:600;
+    color:#f0e6d2;
+    margin-bottom:5px;
+  }
+  
+  .feature-desc {
+    font-size:14px;
+    color:#aaa;
+  }
+  
+  .human-animation {
+    position:fixed;
+    top:30px;
+    right:30px;
+    z-index:5;
+    width:150px;
+    height:200px;
+    pointer-events:none;
+  }
+  
+  .human-body {
+    position:absolute;
+    width:20px;
+    height:60px;
+    background:linear-gradient(to bottom, #d4af37, #b8860b);
+    border-radius:10px 10px 0 0;
+    left:50%;
+    transform:translateX(-50%);
+    top:60px;
+  }
+  
+  .human-head {
+    position:absolute;
+    width:40px;
+    height:40px;
+    background:linear-gradient(to bottom, #f0e6d2, #d4af37);
+    border-radius:50%;
+    left:50%;
+    transform:translateX(-50%);
+    top:30px;
+  }
+  
+  .human-arm {
+    position:absolute;
+    width:8px;
+    height:40px;
+    background:linear-gradient(to bottom, #f0e6d2, #d4af37);
+    border-radius:4px;
+    top:65px;
+  }
+  
+  .left-arm {
+    left:30px;
+    animation:typingLeft 1s infinite alternate;
+  }
+  
+  .right-arm {
+    right:30px;
+    animation:typingRight 1s infinite alternate;
+  }
+  
+  .human-leg {
+    position:absolute;
+    width:8px;
+    height:45px;
+    background:linear-gradient(to bottom, #f0e6d2, #d4af37);
+    border-radius:4px;
+    top:120px;
+  }
+  
+  .left-leg {
+    left:40px;
+    animation:legMove 2s infinite ease-in-out;
+  }
+  
+  .right-leg {
+    right:40px;
+    animation:legMove 2s infinite ease-in-out;
+  }
+  
+  .computer {
+    position:absolute;
+    width:80px;
+    height:50px;
+    background:linear-gradient(to bottom, #333, #1a1a1a);
+    border-radius:8px;
+    top:100px;
+    left:50%;
+    transform:translateX(-50%);
+    border:2px solid #444;
+  }
+  
+  .screen {
+    position:absolute;
+    width:70px;
+    height:35px;
+    background:linear-gradient(to bottom, #00ff00, #00cc00);
+    border-radius:4px;
+    top:5px;
+    left:5px;
+    animation:screenBlink 3s infinite;
+  }
+  
+  @keyframes typingLeft {
+    0%, 100% { transform: translateX(-50%) rotate(0deg); }
+    50% { transform: translateX(-50%) rotate(-10deg); }
+  }
+  
+  @keyframes typingRight {
+    0%, 100% { transform: translateX(50%) rotate(0deg); }
+    50% { transform: translateX(50%) rotate(10deg); }
+  }
+  
+  @keyframes legMove {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(5deg); }
+  }
+  
+  @keyframes screenBlink {
+    0%, 90% { opacity:1; }
+    95% { opacity:0.7; }
+  }
+  
+  .footer-links {
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin-top:30px;
+    padding:20px 0;
+    border-top:1px solid rgba(212, 175, 55, 0.2);
+    flex-wrap:wrap;
+  }
+  
+  .footer-link {
+    color:#d4af37;
+    text-decoration:none;
+    font-size:14px;
+    transition:all 0.3s;
+    padding:5px 10px;
+    border-radius:5px;
+  }
+  
+  .footer-link:hover {
+    background:rgba(212, 175, 55, 0.2);
+    transform:scale(1.05);
+  }
+  
+  .pulse {
+    animation:pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { box-shadow:0 0 0 0 rgba(212, 175, 55, 0.4); }
+    70% { box-shadow:0 0 0 10px rgba(212, 175, 55, 0); }
+    100% { box-shadow:0 0 0 0 rgba(212, 175, 55, 0); }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .wrap {
+      max-width: 95%;
+      padding:15px;
+    }
+    
+    .tabs {
+      flex-direction:column;
+      align-items:center;
+    }
+    
+    .tab {
+      width:100%;
+      text-align:center;
+    }
+    
+    .row {
+      grid-template-columns:1fr;
+    }
+    
+    .video-list {
+      grid-template-columns:1fr;
+    }
+    
+    .features {
+      flex-direction:column;
+    }
+    
+    .human-animation {
+      top:15px;
+      right:15px;
+      width:100px;
+      height:140px;
+    }
+    
+    .computer {
+      width:50px;
+      height:30px;
+      top:70px;
+    }
+    
+    .screen {
+      width:40px;
+      height:20px;
+      top:3px;
+      left:3px;
+    }
+    
+    .human-head {
+      width:25px;
+      height:25px;
+      top:20px;
+    }
+    
+    .human-body {
+      width:12px;
+      height:40px;
+      top:40px;
+    }
+    
+    .human-arm {
+      height:25px;
+      top:42px;
+    }
+    
+    .left-arm {
+      left:20px;
+    }
+    
+    .right-arm {
+      right:20px;
+    }
+    
+    .human-leg {
+      height:30px;
+      top:80px;
+    }
+    
+    .left-leg {
+      left:25px;
+    }
+    
+    .right-leg {
+      right:25px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="tech-bg"></div>
+<div class="particles" id="particles"></div>
+<div class="wrap">
+  <div class="header">
+    <div class="logo-container pulse">
+      <img src="https://image.qwenlm.ai/public_source/46c2a2ea-709b-4eba-97bd-b508c5d7874a/149f722e7-72f8-4b4c-9d40-2132639b38ba.png" alt="Crypto-Rocket Logo" class="logo">
+    </div>
+    <h1>🚀 Binary Options Toolkit</h1>
+    <div class="brand-name">CRYPTOROCKET</div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('market')">📈 Market Data</button>
+    <button class="tab" onclick="switchTab('risk')">🛡 Risk Calc</button>
+    <button class="tab" onclick="switchTab('winrate')">📊 Win Rate</button>
+    <button class="tab" onclick="switchTab('martingale')">📈 Martingale</button>
+    <button class="tab" onclick="switchTab('payout')">💰 Payout</button>
+    <button class="tab" onclick="switchTab('videos')">📺 Videos</button>
+    <button class="tab" onclick="switchTab('buy')">🛒 Buy Product</button>
+  </div>
+
+  <!-- Market Data Panel -->
+  <div id="panel-market" class="panel active">
+    <div class="api-section">
+      <h3 class="section-title">Financial News</h3>
+      <div id="news-container">
+        <iframe src="https://tradingeconomics.com/stream" width="100%" height="600px" frameborder="0"></iframe>
+      </div>
+    </div>
+    
+    <div class="api-section">
+      <h3 class="section-title">Economic Calendar</h3>
+      <div id="calendar-container">
+        <iframe src="https://www.investing.com/economic-calendar" width="100%" height="600px" frameborder="0"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Risk Calculator -->
+  <div id="panel-risk" class="panel">
+    <div class="row">
+      <div><label>Account balance ($)</label><input type="number" id="r-balance" value="1000" min="1" oninput="calcRisk()"></div>
+      <div><label>Risk per trade (%)</label><div class="range-row"><input type="range" id="r-pct" min="0.5" max="10" step="0.5" value="2" oninput="calcRisk()"><span class="range-val" id="r-pct-out">2%</span></div></div>
+    </div>
+    <div class="row">
+      <div><label>Payout (%)</label><div class="range-row"><input type="range" id="r-payout" min="60" max="90" step="1" value="80" oninput="calcRisk()"><span class="range-val" id="r-payout-out">80%</span></div></div>
+      <div><label>Consecutive losses allowed</label><input type="number" id="r-losses" value="3" min="1" max="10" oninput="calcRisk()"></div>
+    </div>
+    <hr class="divider">
+    <div class="row">
+      <div class="card"><div class="card-label">Stake per trade</div><div class="card-val" id="r-stake">$20.00</div></div>
+      <div class="card"><div class="card-label">Max loss (streak)</div><div class="card-val bad" id="r-maxloss">-$60.00</div></div>
+      <div class="card"><div class="card-label">Profit if win</div><div class="card-val good" id="r-profit">+$16.00</div></div>
+      <div class="card"><div class="card-label">Trades to recover</div><div class="card-val warn" id="r-recover">4</div></div>
+    </div>
+    <p class="hint">💡 CryptoRocket: Never risk more than 2% per trade. Max consecutive losses: 3</p>
+  </div>
+
+  <!-- Win Rate Calculator -->
+  <div id="panel-winrate" class="panel">
+    <div class="row">
+      <div><label>Total trades</label><input type="number" id="w-total" value="100" min="1" oninput="calcWin()"></div>
+      <div><label>Winning trades</label><input type="number" id="w-wins" value="55" min="0" oninput="calcWin()"></div>
+    </div>
+    <div class="row">
+      <div><label>Stake per trade ($)</label><input type="number" id="w-stake" value="20" min="1" oninput="calcWin()"></div>
+      <div><label>Payout (%)</label><div class="range-row"><input type="range" id="w-payout" min="60" max="90" step="1" value="80" oninput="calcWin()"><span class="range-val" id="w-payout-out">80%</span></div></div>
+    </div>
+    <hr class="divider">
+    <div class="row">
+      <div class="card"><div class="card-label">Win rate</div><div class="card-val" id="w-rate">55.0%</div></div>
+      <div class="card"><div class="card-label">Break-even rate</div><div class="card-val warn" id="w-breakeven">55.6%</div></div>
+      <div class="card"><div class="card-label">Net P/L</div><div class="card-val" id="w-net">-$10.00</div></div>
+      <div class="card"><div class="card-label">Verdict</div><div class="card-val" id="w-verdict" style="font-size:15px;">—</div></div>
+    </div>
+    <div style="margin-top:16px;">
+      <div style="background:#333;border-radius:8px;height:18px;overflow:hidden;">
+        <div id="w-bar" style="height:100%;background:linear-gradient(to right, #d4af37, #b8860b);width:55%;transition:width .5s ease;"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:#aaa;margin-top:6px;">
+        <span>0%</span><span id="w-be-label">Break-even: 55.6%</span><span>100%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Martingale Calculator -->
+  <div id="panel-martingale" class="panel">
+    <div class="row">
+      <div><label>Initial stake ($)</label><input type="number" id="m-initial" value="20" min="1" step="1" oninput="calcMartingale()"></div>
+      <div><label>Steps to show</label><div class="range-row"><input type="range" id="m-steps" min="3" max="6" step="1" value="4" oninput="calcMartingale()"><span class="range-val" id="m-steps-out">4</span></div></div>
+    </div>
+    <div class="row">
+      <div><label>Payout (%)</label><div class="range-row"><input type="range" id="m-payout" min="60" max="90" step="1" value="80" oninput="calcMartingale()"><span class="range-val" id="m-payout-out">80%</span></div></div>
+      <div><label>Stop when total loss exceeds ($)</label><input type="number" id="m-stop" value="300" min="50" oninput="calcMartingale()"></div>
+    </div>
+    <hr class="divider">
+    <div style="overflow-x:auto;">
+      <table><thead><tr><th>Step</th><th>Stake</th><th>Total at risk</th><th>If you win</th><th>Net</th></tr></thead>
+      <tbody id="m-tbody"></tbody></table>
+    </div>
+    <p class="warn-text" id="m-warning"></p>
+  </div>
+
+  <!-- Payout Calculator -->
+  <div id="panel-payout" class="panel">
+    <div class="row">
+      <div><label>Stake ($)</label><input type="number" id="p-stake" value="20" min="1" oninput="calcPayout()"></div>
+      <div><label>Payout rate (%)</label><div class="range-row"><input type="range" id="p-payout" min="60" max="90" step="1" value="80" oninput="calcPayout()"><span class="range-val" id="p-payout-out">80%</span></div></div>
+    </div>
+    <div class="row">
+      <div><label>Number of trades</label><input type="number" id="p-trades" value="10" min="1" oninput="calcPayout()"></div>
+    </div>
+    <hr class="divider">
+    <div class="row">
+      <div class="card"><div class="card-label">Profit if win</div><div class="card-val good" id="p-win-profit">+$16.00</div></div>
+      <div class="card"><div class="card-label">Loss if lose</div><div class="card-val bad" id="p-loss">-$20.00</div></div>
+      <div class="card"><div class="card-label">Expected wins</div><div class="card-val" id="p-exp-wins">5</div></div>
+      <div class="card"><div class="card-label">Expected net</div><div class="card-val" id="p-exp-net">-$40.00</div></div>
+    </div>
+    <div class="row" style="margin-top:0;">
+      <div class="card"><div class="card-label">Total invested</div><div class="card-val" id="p-invested">$200.00</div></div>
+      <div class="card"><div class="card-label">ROI</div><div class="card-val bad" id="p-roi">-20.0%</div></div>
+    </div>
+  </div>
+
+  <!-- Video Library -->
+  <div id="panel-videos" class="panel">
+    <h2 style="margin-bottom:20px; color:#d4af37;">Binary Options Education Videos</h2>
+    <div class="video-list" id="video-list">
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/Y9UKwU8eJsQ" allowfullscreen></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Binary Options Strategy for Beginners</div>
+          <div class="video-channel">Pocket Option Masters</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/FiCPxXH6aGU" allowfullscreen></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Pocket Option Platform Tutorial</div>
+          <div class="video-channel">Binary Trading Pro</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/PoYTOeURDF8" allowfullscreen></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Best Time Frames for Binary Options</div>
+          <div class="video-channel">Option Traders Hub</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/RS_0txJZ72U" allowfullscreen></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Technical Analysis for Binary Trading</div>
+          <div class="video-channel">Trading Academy</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Buy Product Panel -->
+  <div id="panel-buy" class="panel">
+    <div class="product-container">
+      <div class="product-image">🚀</div>
+      <div class="product-info">
+        <h2 class="product-title">CryptoRocket Premium Toolkit</h2>
+        <p class="product-description">Advanced binary options tools, real-time market analysis, and exclusive educational content for Pocket Option traders.</p>
+        <div class="price">$79.99</div>
+        <button class="buy-button" onclick="window.open('https://uzoeze.github.io/toolkits/', '_blank')">BUY NOW</button>
+      </div>
+      
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">📊</div>
+          <div class="feature-title">Binary Strategy Analyzer</div>
+          <div class="feature-desc">Analyze and optimize your binary options strategies</div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🔒</div>
+          <div class="feature-title">Risk Management</div>
+          <div class="feature-desc">Protect your account with proven risk management tools</div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🎓</div>
+          <div class="feature-title">Educational Content</div>
+          <div class="feature-desc">Exclusive binary options courses and strategies</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Human Animation -->
+  <div class="human-animation">
+    <div class="human-head"></div>
+    <div class="human-body"></div>
+    <div class="human-arm left-arm"></div>
+    <div class="human-arm right-arm"></div>
+    <div class="human-leg left-leg"></div>
+    <div class="human-leg right-leg"></div>
+    <div class="computer">
+      <div class="screen"></div>
+    </div>
+  </div>
+  
+  <!-- Footer Links -->
+  <div class="footer-links">
+    <a href="#" class="footer-link" onclick="showModal('about')">About</a>
+    <a href="https://www.youtube.com/@cryptorocket__" target="_blank" class="footer-link">Contact</a>
+    <a href="#" class="footer-link" onclick="showModal('privacy')">Privacy Policy</a>
+  </div>
+</div>
+
+<!-- Modal for About and Privacy Policy -->
+<div id="modal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;visibility:hidden;transition:all 0.3s;">
+  <div style="background:rgba(20, 20, 20, 0.9);width:90%;max-width:600px;border-radius:12px;border:1px solid rgba(212, 175, 55, 0.3);padding:30px;position:relative;transform:scale(0.9);transition:transform 0.3s;">
+    <h2 id="modal-title" style="color:#d4af37;margin-bottom:20px;font-size:24px;"></h2>
+    <div id="modal-content" style="color:#f0e6d2;line-height:1.6;max-height:60vh;overflow-y:auto;"></div>
+    <button onclick="closeModal()" style="position:absolute;top:15px;right:15px;background:rgba(244, 67, 54, 0.8);color:white;border:none;border-radius:50%;width:30px;height:30px;font-size:18px;cursor:pointer;">×</button>
+  </div>
+</div>
+
+<script>
+// Create particles for background animation
+function createParticles() {
+  const particlesContainer = document.getElementById('particles');
+  const particleCount = 30;
+  
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    
+    // Random properties
+    const size = Math.random() * 5 + 1;
+    const posX = Math.random() * 100;
+    const posY = Math.random() * 100;
+    const duration = Math.random() * 20 + 10;
+    const delay = Math.random() * 5;
+    const hue = Math.floor(Math.random() * 30) + 40; // Gold-like colors
+    
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.left = `${posX}%`;
+    particle.style.top = `${posY}%`;
+    particle.style.animationDuration = `${duration}s`;
+    particle.style.animationDelay = `${delay}s`;
+    particle.style.background = `hsla(${hue}, 100%, 70%, ${Math.random() * 0.4 + 0.1})`;
+    
+    particlesContainer.appendChild(particle);
+  }
+}
+
+function switchTab(id){
+  ['market','risk','winrate','martingale','payout','videos','buy'].forEach((n,i)=>{
+    document.querySelectorAll('.tab')[i].classList.toggle('active',n===id);
+    document.getElementById('panel-'+n).classList.toggle('active',n===id);
+  });
+}
+
+function fmt(n){return '$'+Math.abs(n).toFixed(2);}
+function calcRisk(){
+  const bal=parseFloat(document.getElementById('r-balance').value)||0;
+  const p=parseFloat(document.getElementById('r-pct').value)||2;
+  const payout=parseFloat(document.getElementById('r-payout').value)||80;
+  const losses=parseInt(document.getElementById('r-losses').value)||3;
+  document.getElementById('r-pct-out').textContent=p+'%';
+  document.getElementById('r-payout-out').textContent=payout+'%';
+  const stake=bal*p/100, profit=stake*payout/100, maxloss=stake*losses;
+  document.getElementById('r-stake').textContent=fmt(stake);
+  document.getElementById('r-maxloss').textContent='-'+fmt(maxloss);
+  document.getElementById('r-profit').textContent='+'+fmt(profit);
+  document.getElementById('r-recover').textContent=Math.ceil(maxloss/profit);
+}
+function calcWin(){
+  const total=parseInt(document.getElementById('w-total').value)||1;
+  const wins=Math.min(parseInt(document.getElementById('w-wins').value)||0,total);
+  const stake=parseFloat(document.getElementById('w-stake').value)||20;
+  const payout=parseFloat(document.getElementById('w-payout').value)||80;
+  document.getElementById('w-payout-out').textContent=payout+'%';
+  const losses=total-wins, winRate=wins/total*100, breakEven=100/(1+payout/100);
+  const net=wins*(stake*payout/100)-losses*stake;
+  document.getElementById('w-rate').textContent=winRate.toFixed(1)+'%';
+  document.getElementById('w-breakeven').textContent=breakEven.toFixed(1)+'%';
+  document.getElementById('w-be-label').textContent='Break-even: '+breakEven.toFixed(1)+'%';
+  const netEl=document.getElementById('w-net');
+  netEl.textContent=(net>=0?'+':'')+fmt(net);
+  netEl.className='card-val '+(net>0?'good':net<0?'bad':'warn');
+  const ve=document.getElementById('w-verdict');
+  if(winRate>breakEven){ve.textContent='✅ Profitable';ve.className='card-val good';}
+  else if(winRate<breakEven){ve.textContent='❌ Losing';ve.className='card-val bad';}
+  else{ve.textContent='⚖️ Break-even';ve.className='card-val warn';}
+  document.getElementById('w-bar').style.width=Math.min(winRate,100)+'%';
+  document.getElementById('w-bar').style.background=winRate>=breakEven?'linear-gradient(to right, #d4af37, #b8860b)':'linear-gradient(to right, #f44336, #d32f2f)';
+}
+function calcMartingale(){
+  const initial=parseFloat(document.getElementById('m-initial').value)||20;
+  const steps=parseInt(document.getElementById('m-steps').value)||4;
+  const payout=parseFloat(document.getElementById('m-payout').value)||80;
+  const stop=parseFloat(document.getElementById('m-stop').value)||300;
+  document.getElementById('m-steps-out').textContent=steps;
+  document.getElementById('m-payout-out').textContent=payout+'%';
+  let tbody='',total=0,warn='',hitStop=false;
+  for(let i=1;i<=steps;i++){
+    const stake=initial*i*2; // Simplified progression for binary options
+    total+=stake;
+    const profit=stake*payout/100, net=profit-total;
+    const stopped=total>stop&&!hitStop;
+    if(stopped){hitStop=true;warn='⚠️ Step '+i+' exceeds your stop limit of $'+stop.toFixed(0)+'. Total exposed: '+fmt(total)+'.';}
+    tbody+=`<tr${stopped?' class="stop-row"':''}><td>${i}</td><td>${fmt(stake)}</td><td>${fmt(total)}</td><td>${fmt(stake+profit)}</td><td style="color:${net>=0?'#4caf50':'#f44336'};font-weight:600">${net>=0?'+':''}${fmt(net)}</td></tr>`;
+    if(stopped)break;
+  }
+  document.getElementById('m-tbody').innerHTML=tbody;
+  document.getElementById('m-warning').textContent=warn;
+}
+function calcPayout(){
+  const stake=parseFloat(document.getElementById('p-stake').value)||20;
+  const payout=parseFloat(document.getElementById('p-payout').value)||80;
+  const trds=parseInt(document.getElementById('p-trades').value)||10;
+  const profit=stake*payout/100;
+  const expWins=Math.round(trds*0.5); // Default 50% expected win rate
+  const expNet=expWins*profit-(trds-expWins)*stake, invested=trds*stake, roi=expNet/invested*100;
+  document.getElementById('p-payout-out').textContent=payout+'%';
+  document.getElementById('p-win-profit').textContent='+'+fmt(profit);
+  document.getElementById('p-loss').textContent='-'+fmt(stake);
+  document.getElementById('p-exp-wins').textContent=expWins;
+  const ne=document.getElementById('p-exp-net');
+  ne.textContent=(expNet>=0?'+':'')+fmt(expNet);
+  ne.className='card-val '+(expNet>0?'good':expNet<0?'bad':'warn');
+  document.getElementById('p-invested').textContent=fmt(invested);
+  const re=document.getElementById('p-roi');
+  re.textContent=roi.toFixed(1)+'%';
+  re.className='card-val '+(roi>0?'good':roi<0?'bad':'warn');
+}
+
+function showModal(type) {
+  const modal = document.getElementById('modal');
+  const title = document.getElementById('modal-title');
+  const content = document.getElementById('modal-content');
+  
+  if (type === 'about') {
+    title.textContent = 'About Crypto-Rocket Binary Options Toolkit';
+    content.innerHTML = `
+      <p>Welcome to Crypto-Rocket Binary Options Toolkit, your premier destination for advanced binary options trading tools specifically designed for Pocket Option traders. Our platform combines cutting-edge technology with expert analysis to help traders navigate the complex world of binary options.</p>
+      <br>
+      <p>Founded in 2026, Crypto-Rocket was created by a team of experienced binary options traders who recognized the need for reliable, easy-to-use tools in the rapidly evolving binary options landscape. Our mission is to empower traders of all levels with the resources they need to make informed decisions.</p>
+      <br>
+      <p>Our toolkit includes risk calculators, win rate analyzers, martingale simulators, and payout estimators, all designed to enhance your binary options trading strategy. We continuously update our tools to reflect the latest market trends and incorporate feedback from our users.</p>
+      <br>
+      <p>At Crypto-Rocket, we believe that successful binary options trading requires both powerful tools and comprehensive education. That's why we offer a curated selection of educational videos and resources to help you improve your skills and understanding of the markets.</p>
+      <br>
+      <p>Our tools are specifically calibrated for Pocket Option's platform requirements, including recommended risk percentages (1-10%), payout rates (60-90%), and maximum consecutive loss scenarios (3-5).</p>
+    `;
+  } else if (type === 'privacy') {
+    title.textContent = 'Privacy Policy';
+    content.innerHTML = `
+      <p>This Privacy Policy governs the manner in which Crypto-Rocket collects, uses, maintains, and discloses information collected from users of the https://crypto-rocket.binary-options toolkit website.</p>
+      <br>
+      <h3 style="color:#d4af37;">Personal Identification Information</h3>
+      <p>We may collect personal identification information from Users in a variety of ways, including when Users visit our site, register on the site, place an order, subscribe to the newsletter, respond to a survey, fill out a form, and in connection with other activities, services, features or resources we make available on our Site. Users may visit our Site anonymously. We will collect personal identification information from Users only if they voluntarily submit such information to us. Users can always refuse to supply personally identification information, except that it may prevent them from engaging in certain Site related activities.</p>
+      <br>
+      <h3 style="color:#d4af37;">Non-Personal Identification Information</h3>
+      <p>We may collect non-personal identification information about Users whenever they interact with our Site. Non-personal identification information may include the browser name, the type of computer and technical information about Users means of connection to our Site, such as the operating system and the Internet service providers utilized and other similar information.</p>
+      <br>
+      <h3 style="color:#d4af37;">Web Browser Cookies</h3>
+      <p>Our Site may use "cookies" to enhance User experience. User's web browser places cookies on their hard drive for record-keeping purposes and sometimes to track information about them. User may choose to set their web browser to refuse cookies, or to alert you when cookies are being sent. If they do so, note that some parts of the Site may not function properly.</p>
+      <br>
+      <h3 style="color:#d4af37;">Security</h3>
+      <p>We adopt appropriate data collection, storage and processing practices and security measures to protect against unauthorized access, alteration, disclosure or destruction of your personal information, username, password, transaction information and data stored on our Site.</p>
+      <br>
+      <h3 style="color:#d4af37;">Changes to This Privacy Policy</h3>
+      <p>Crypto-Rocket has the discretion to update this privacy policy at any time. When we do, we will revise the updated date at the bottom of this page. We encourage Users to frequently check this page for any changes to stay informed about how we are helping to protect the personal information we collect. You acknowledge and agree that it is your responsibility to review this privacy policy periodically and become aware of modifications.</p>
+    `;
+  }
+  
+  modal.style.opacity = '1';
+  modal.style.visibility = 'visible';
+  modal.style.transform = 'translateY(0)';
+}
+
+function closeModal() {
+  const modal = document.getElementById('modal');
+  modal.style.opacity = '0';
+  modal.style.visibility = 'hidden';
+  modal.style.transform = 'translateY(-20px)';
+}
+
+// Initialize
+createParticles();
+calcRisk();calcWin();calcMartingale();calcPayout();
+</script>
+</body>
+</html>
+
