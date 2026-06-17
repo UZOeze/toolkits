@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://binarytoolkit.netlify.app/sitemap.xml
