@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CryptoRocket — Markets, Signals, Setups</title>
+<meta name="description" content="Sports, forex, crypto, and Polymarket analysis from CryptoRocket.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wordmark">CRYPTO<span class="accent">ROCKET</span></div>
+  <div class="nav-clock" id="nav-clock"></div>
+</nav>
+
+<div class="ticker-wrap">
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
+<header class="hero">
+  <p class="hero-eyebrow">Sports · Forex · Crypto · Polymarket</p>
+  <h1>Every market moves on the same thing: who has the edge.</h1>
+  <p class="hero-sub">
+    Setups, signals, and straight-talk breakdowns across sports betting,
+    forex, crypto, and prediction markets — posted the moment they're written.
+  </p>
+</header>
+
+<div class="filter-bar" id="filter-bar"></div>
+
+<main>
+  <section class="article-grid" id="article-grid"></section>
+  <div class="empty-state" id="empty-state" style="display:none;">
+    <p>No articles in this category yet — check back soon, or drop a new
+    HTML file into <code>/posts/&lt;category&gt;</code> to publish one.</p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <span>&copy; <span id="year"></span> CryptoRocket</span>
+  <a href="https://github.com/" target="_blank" rel="noopener">Source on GitHub</a>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

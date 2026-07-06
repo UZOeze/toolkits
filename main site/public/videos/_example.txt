@@ -1,0 +1,27 @@
+https://www.youtube.com/watch?v=dQw4w9WgXcQ
+title: Optional custom title (delete this line to auto-fetch from YouTube)
+date: 2026-07-06
+description: Optional one or two sentence summary shown on the video card.
+
+------------------------------------------------------------
+HOW TO USE THIS FILE
+------------------------------------------------------------
+1. Copy this file into the right category folder:
+     videos/sports/your-video-name.txt
+     videos/forex/your-video-name.txt
+     videos/crypto/your-video-name.txt
+     videos/polymarket/your-video-name.txt
+
+2. Replace the link on line 1 with your real YouTube or Vimeo URL.
+   That's the ONLY required line — title and thumbnail are fetched
+   automatically from YouTube/Vimeo if you delete the "title:" line.
+
+3. Optionally keep or edit the "title", "date", and "description"
+   override lines. Delete any you don't need.
+
+4. Delete this instructions block (everything below the blank line
+   after "description:") before committing — it's just here to
+   explain the format and is ignored by the build script anyway
+   since it isn't a recognized "key: value" line or a URL.
+
+5. Commit and push. The homepage updates itself within a minute or two.

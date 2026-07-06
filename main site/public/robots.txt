@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+Sitemap: https://mytoolkits.com/sitemap.xml
+
+# Crawl-delay for polite bots
+Crawl-delay: 1
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /

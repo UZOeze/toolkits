@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CryptoRocket — Video Library</title>
+<meta name="description" content="Sports, forex, crypto, and Polymarket videos from CryptoRocket.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/video-style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wordmark">CRYPTO<span class="accent">ROCKET</span></div>
+  <div class="nav-clock" id="nav-clock"></div>
+</nav>
+
+<div class="ticker-wrap">
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
+<header class="hero">
+  <p class="hero-eyebrow">Sports · Forex · Crypto · Polymarket</p>
+  <h1>Watch the setups. Not just read about them.</h1>
+  <p class="hero-sub">
+    Every upload lands here the moment it's linked — walkthroughs, live
+    session recaps, and breakdowns across sports betting, forex, crypto,
+    and prediction markets.
+  </p>
+</header>
+
+<div class="filter-bar" id="filter-bar"></div>
+
+<main>
+  <section class="video-grid" id="video-grid"></section>
+  <div class="empty-state" id="empty-state" style="display:none;">
+    <p>No videos in this category yet — check back soon, or drop a new
+    <code>.txt</code> file with a video link into <code>/videos/&lt;category&gt;</code> to publish one.</p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <span>&copy; <span id="year"></span> CryptoRocket</span>
+  <a href="https://github.com/" target="_blank" rel="noopener">Source on GitHub</a>
+</footer>
+
+<!-- Player modal -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-player" id="modal-player"></div>
+    <div class="modal-info">
+      <div class="modal-top-row">
+        <h2 id="modal-title"></h2>
+        <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-meta" id="modal-meta"></div>
+      <p class="modal-desc" id="modal-desc"></p>
+      <a class="modal-external" id="modal-external" target="_blank" rel="noopener">Watch on original site &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="assets/js/video-main.js"></script>
+</body>
+</html>

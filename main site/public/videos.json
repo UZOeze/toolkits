@@ -1,0 +1,15 @@
+[
+  {
+    "title": "Welcome To Cryptorocket",
+    "date": "2026-07-06",
+    "description": "A placeholder video showing how the video library works \u2014 swap this link for your own upload.",
+    "author": "CryptoRocket",
+    "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+    "provider": "youtube",
+    "embedUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "sourceUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "category": "crypto",
+    "categoryLabel": "Crypto",
+    "slug": "welcome-to-cryptorocket"
+  }
+]
